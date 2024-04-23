@@ -1,0 +1,2 @@
+angel@angel-VirtualBox:~/DriverOntwikkeling/opgave3$ cat /proc/modules | grep opgave
+opgave_3_1 16384 0 - Live 0x0000000000000000 (OE)
