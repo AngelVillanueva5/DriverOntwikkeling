@@ -8,3 +8,4 @@ MAKE = /usr/bin/make
 
 clean:
 	rm -rf *.o *.ko *.order *.cmd *.symvers *.mod.c *.mod
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
