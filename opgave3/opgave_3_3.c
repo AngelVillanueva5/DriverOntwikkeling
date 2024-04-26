@@ -6,21 +6,30 @@
 MODULE_LICENSE("Dual BSD/GPL");
 
 static const int major = 500;
-static const int minor = 0;
-static const int amount = 1; // amount of major nrs.
+static const int minor = 1;
+static const int amount = 0; // amount of major nrs.
 static const char driver_name[] = "hello_driver";
 /* device structures */
 static struct cdev* device;
+
+extern struct file_operations fops;
 
 static int hello_init(void)
 {
 	dev_t device_number;
 	int result;
+	printk(KERN_ALERT "hello init\n");
 	device_number = MKDEV(major, minor);
 	device = cdev_alloc();
+	cdev_init(device, &fops);
 	result = register_chrdev_region(device_number, amount, driver_name);
-	printk("%d", minor);
-	printk("%d", major);
+	if (result != 0)
+	{
+		printk(KERN_ALERT "hello init failed");
+	}
+	result = cdev_add(device, device_number, minor);
+	printk(KERN_INFO "major:%d minor:%d", major, minor );
+
 	return result;
 }
 
@@ -55,7 +64,7 @@ static ssize_t hello_read(struct file *file, char __user * buf, size_t lbuf, lof
 static ssize_t hello_write(struct file *file, const char __user * buf, size_t lbuf, loff_t * ppos)
 {
 	printk(KERN_ALERT "hello_write())\n");
-	return 0;
+	return 6;
 }
 
 struct file_operations fops = {

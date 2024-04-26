@@ -29,7 +29,9 @@ static const struct modversion_info ____versions[]
 __used __section("__versions") = {
 	{ 0x6ad771c3, "module_layout" },
 	{ 0x6091b333, "unregister_chrdev_region" },
+	{ 0x646eac6, "cdev_add" },
 	{ 0x3fd78f3b, "register_chrdev_region" },
+	{ 0xd90cd7e6, "cdev_init" },
 	{ 0x4e517eb9, "cdev_alloc" },
 	{ 0x5b8239ca, "__x86_return_thunk" },
 	{ 0x92997ed8, "_printk" },
@@ -39,4 +41,4 @@ __used __section("__versions") = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "6A26824F3A4E3C29A0523F8");
+MODULE_INFO(srcversion, "8980B91A314FDCF2CBDF6DC");
