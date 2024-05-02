@@ -11,7 +11,8 @@ static const int amount = 0; // amount of major nrs.
 static const char driver_name[] = "hello_driver";
 /* device structures */
 static struct cdev* device;
-
+static int param = 0;
+module_param_named(param, param, int, 0644);
 extern struct file_operations fops;
 
 static int hello_init(void)
@@ -58,13 +59,16 @@ static int hello_release(struct inode *inode, struct file *file)
 static ssize_t hello_read(struct file *file, char __user * buf, size_t lbuf, loff_t * pos)
 {
 	printk(KERN_ALERT "hello_read()\n");
+	printk(KERN_INFO "%zu:lbuf", lbuf);
 	return 0;
 }
 
 static ssize_t hello_write(struct file *file, const char __user * buf, size_t lbuf, loff_t * ppos)
 {
 	printk(KERN_ALERT "hello_write())\n");
-	return 6;
+	printk(KERN_INFO "%zu:lbuf", lbuf);
+
+	return lbuf;
 }
 
 struct file_operations fops = {
