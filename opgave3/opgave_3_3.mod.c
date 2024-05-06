@@ -1,18 +1,15 @@
-#include <linux/module.h>
-#define INCLUDE_VERMAGIC
 #include <linux/build-salt.h>
-#include <linux/elfnote-lto.h>
+#include <linux/module.h>
 #include <linux/vermagic.h>
 #include <linux/compiler.h>
 
 BUILD_SALT;
-BUILD_LTO_INFO;
 
 MODULE_INFO(vermagic, VERMAGIC_STRING);
 MODULE_INFO(name, KBUILD_MODNAME);
 
 __visible struct module __this_module
-__section(".gnu.linkonce.this_module") = {
+__attribute__((section(".gnu.linkonce.this_module"))) = {
 	.name = KBUILD_MODNAME,
 	.init = init_module,
 #ifdef CONFIG_MODULE_UNLOAD
@@ -26,20 +23,22 @@ MODULE_INFO(retpoline, "Y");
 #endif
 
 static const struct modversion_info ____versions[]
-__used __section("__versions") = {
-	{ 0x6ad771c3, "module_layout" },
-	{ 0xf9418c06, "param_ops_int" },
+__used
+__attribute__((section("__versions"))) = {
+	{ 0x516e49f9, "module_layout" },
+	{ 0xb7700415, "param_ops_int" },
 	{ 0x6091b333, "unregister_chrdev_region" },
-	{ 0x646eac6, "cdev_add" },
+	{ 0x8fe01c8, "cdev_add" },
 	{ 0x3fd78f3b, "register_chrdev_region" },
-	{ 0xd90cd7e6, "cdev_init" },
-	{ 0x4e517eb9, "cdev_alloc" },
-	{ 0x5b8239ca, "__x86_return_thunk" },
-	{ 0x92997ed8, "_printk" },
-	{ 0xbdfb6dbb, "__fentry__" },
+	{ 0x58f3a1ad, "cdev_init" },
+	{ 0xcdd72f0f, "cdev_alloc" },
+	{ 0x2e5810c6, "__aeabi_unwind_cpp_pr1" },
+	{ 0x7c32d0f0, "printk" },
+	{ 0xb1ad28e0, "__gnu_mcount_nc" },
 };
 
-MODULE_INFO(depends, "");
+static const char __module_depends[]
+__used
+__attribute__((section(".modinfo"))) =
+"depends=";
 
-
-MODULE_INFO(srcversion, "EC4927398A245FF856ABD1E");
