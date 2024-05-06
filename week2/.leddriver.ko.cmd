@@ -1,0 +1,1 @@
+cmd_/home/debian/bin/DriverOntwikkeling/week2/leddriver.ko := ld -r  -EL -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds  --build-id  -o /home/debian/bin/DriverOntwikkeling/week2/leddriver.ko /home/debian/bin/DriverOntwikkeling/week2/leddriver.o /home/debian/bin/DriverOntwikkeling/week2/leddriver.mod.o ;  true

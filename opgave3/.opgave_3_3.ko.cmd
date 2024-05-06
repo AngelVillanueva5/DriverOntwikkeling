@@ -1,1 +1,0 @@
-cmd_/home/debian/bin/DriverOntwikkeling/opgave3/opgave_3_3.ko := ld -r  -EL -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds  --build-id  -o /home/debian/bin/DriverOntwikkeling/opgave3/opgave_3_3.ko /home/debian/bin/DriverOntwikkeling/opgave3/opgave_3_3.o /home/debian/bin/DriverOntwikkeling/opgave3/opgave_3_3.mod.o ;  true
