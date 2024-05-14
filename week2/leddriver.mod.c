@@ -32,11 +32,11 @@ __attribute__((section("__versions"))) = {
 	{ 0x3fd78f3b, "register_chrdev_region" },
 	{ 0x58f3a1ad, "cdev_init" },
 	{ 0xcdd72f0f, "cdev_alloc" },
+	{ 0x7c32d0f0, "printk" },
+	{ 0x2e5810c6, "__aeabi_unwind_cpp_pr1" },
 	{ 0xedc03953, "iounmap" },
 	{ 0x822137e2, "arm_heavy_mb" },
 	{ 0xe97c4103, "ioremap" },
-	{ 0x2e5810c6, "__aeabi_unwind_cpp_pr1" },
-	{ 0x7c32d0f0, "printk" },
 	{ 0xb1ad28e0, "__gnu_mcount_nc" },
 };
 

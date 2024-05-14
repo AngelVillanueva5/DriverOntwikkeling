@@ -34,8 +34,8 @@ extern struct file_operations fops;
 uint32_t* gpio1;
 uint32_t oe;
 
-void setPinMode(void){
-/* output instellen */
+void pinConf(void){
+	/* output instellen */
 	gpio1 = ioremap( GPIO1_ADDR, GPIO_MAX * sizeof(uint32_t) );
 	barrier();
 	oe = ioread32( gpio1 + GPIO_OE );
@@ -47,7 +47,6 @@ void setPinMode(void){
 
 void setLed(bool state){
 	if (state){
-		/* ledje aan en uit zetten */
 		gpio1 = ioremap(GPIO1_ADDR, GPIO_MAX);
 		barrier();
 		iowrite32( (1<<PIN), gpio1 + GPIO_SETDATAOUT ); // Pin 18 aan
@@ -62,13 +61,6 @@ void setLed(bool state){
 		iounmap(gpio1);
 		printk(KERN_INFO "ledstatus: %d\n", state);
 	}
-}
-
-void toggleLed(void)
-{
-	static bool ledStatus = false;
-	setLed(ledStatus);
-	ledStatus = !ledStatus;
 }
 
 bool getLedStatus(void) 
@@ -93,27 +85,12 @@ static ssize_t hello_write(struct file* file, const char __user* buf, size_t lbu
 	    static bool ledStatus = false;
 	    setLed(ledStatus);
    	    ledStatus = !ledStatus;
-
 	    return lbuf;
 }
-
-static int hello_open(struct inode *inode, struct file *file)
-{
-	                printk(KERN_ALERT "hello_open()\n");
-			                        return 0;
-}
-static int hello_release(struct inode *inode, struct file *file)
-{
-	                printk(KERN_ALERT "hello_release()\n");
-			                        return 0;
-}
-
 
 struct file_operations fops = {
 	.read = hello_read,
 	.write = hello_write,
-	.open = hello_open,
-	.release = hello_release,
 };
 
 static int hello_init(void) {
@@ -130,7 +107,7 @@ static int hello_init(void) {
 		}
 	result = cdev_add(device, device_number, minor);
 	printk(KERN_INFO "major:%d minor:%d", major, minor );	
-	setPinMode();
+	pinConf();
 	return result;
 }
 
