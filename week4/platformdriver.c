@@ -125,7 +125,7 @@ static int gpio_ex_remove(struct platform_device* dev){
 	device_destroy(gpio_ex_class, MKDEV(0, 0));
 	class_destroy(gpio_ex_class);
 	// FREE ALLOCATED DTA
-	kfree(ked_data);
+	kfree(led_data);
 	return 0;
 }
 
