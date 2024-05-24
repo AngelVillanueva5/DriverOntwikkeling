@@ -6105,11 +6105,11 @@
 			default-state = "off";
 		};
 
-		led6 {
+		led6 { 
 			label = "headerled";
-			gpios = < 0x5a 0x12 0x00 >;
+			gpios = <0x5a 0x12 0x00>;
 			linux,default-trigger = "none";
-			default_state = "off";
+			default-state = "off";
 		};
 	};
 
@@ -6827,5 +6827,11 @@
 		rng = "/ocp/rng@48310000";
 		sgx = "/ocp/sgx@56000000";
 		vmmcsd_fixed = "/fixedregulator0";
+	};
+
+	led_extern {
+		compatible="gpio-extern";
+		label="groenled";
+		gpios=<0x5a 0x12 0x00>;
 	};
 };

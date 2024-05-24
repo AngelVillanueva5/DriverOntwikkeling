@@ -1,0 +1,1 @@
+cmd_/home/debian/bin/DriverOntwikkeling/week3/platformdriver.ko := ld -r  -EL -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds  --build-id  -o /home/debian/bin/DriverOntwikkeling/week3/platformdriver.ko /home/debian/bin/DriverOntwikkeling/week3/platformdriver.o /home/debian/bin/DriverOntwikkeling/week3/platformdriver.mod.o ;  true
