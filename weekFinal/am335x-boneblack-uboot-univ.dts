@@ -6830,7 +6830,7 @@
 	};
 	
 	node {
-		compatible = drvoi2c;
+		compatible = "drvoi2c";
 		reg = <0x25>;
 		bus = <0x02>;
 	};
