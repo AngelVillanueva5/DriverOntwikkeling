@@ -13,8 +13,6 @@
 #include <linux/i2c.h>
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Johannes 4 GNU/Linux");
-MODULE_DESCRIPTION("A driver for my simple AMTEGA I2C ADC");
 static struct i2c_client *i2c_client;
 static struct class *i2c_class;
 static struct device *i2c_device;
@@ -99,7 +97,7 @@ static int i2c_probe(struct platform_device *pdev) {
     info.addr = reg_value;
 
     i2c_client = i2c_new_device(adapter, &info);
-
+    // SPACE ALLOCATE
     i2c_data = kzalloc(sizeof(struct i2c_members), GFP_KERNEL);
     dev_set_drvdata(&pdev->dev, i2c_data);
     printk("start device crate");
