@@ -99,8 +99,9 @@ static int i2c_probe(struct platform_device *pdev) {
 
     i2c_data = kzalloc(sizeof(struct i2c_members), GFP_KERNEL);
     dev_set_drvdata(&pdev->dev, i2c_data);
-    i2c_device = device_create(i2c_class, NULL, MKDEV(0, 0), NULL, "I2C_device%d", 0);
-
+    printk("start device crate");
+    i2c_device = device_create(i2c_class, NULL, MKDEV(0, 0), NULL, "drvoi2c%d", 0);
+	printk("end device create");
     if (device_create_file(i2c_device, &dev_attr_register_value)) {
         device_destroy(i2c_class, MKDEV(0, 0));
         kfree(i2c_data);

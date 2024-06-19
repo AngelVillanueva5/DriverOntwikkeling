@@ -30,7 +30,6 @@ __attribute__((section("__versions"))) = {
 	{ 0xebdab104, "__class_create" },
 	{ 0x3df0823f, "class_destroy" },
 	{ 0xf55bc851, "platform_driver_unregister" },
-	{ 0xc4021e53, "_dev_err" },
 	{ 0xa3287a5d, "i2c_put_adapter" },
 	{ 0x7b0a8b0e, "device_create_file" },
 	{ 0x7c1318e3, "device_create" },
@@ -41,6 +40,7 @@ __attribute__((section("__versions"))) = {
 	{ 0x5f754e5a, "memset" },
 	{ 0x73e1d3e2, "i2c_get_adapter" },
 	{ 0xccdf3fc8, "of_property_read_variable_u32_array" },
+	{ 0xc4021e53, "_dev_err" },
 	{ 0xb81960ca, "snprintf" },
 	{ 0xd286d2a6, "i2c_transfer_buffer_flags" },
 	{ 0xdb7305a1, "__stack_chk_fail" },
@@ -52,6 +52,7 @@ __attribute__((section("__versions"))) = {
 	{ 0x37a0cba, "kfree" },
 	{ 0xaf87d05c, "device_destroy" },
 	{ 0x761270f0, "device_remove_file" },
+	{ 0x7c32d0f0, "printk" },
 	{ 0xb1ad28e0, "__gnu_mcount_nc" },
 };
 
