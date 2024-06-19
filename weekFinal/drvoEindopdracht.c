@@ -144,6 +144,7 @@ static int i2c_init(void) {
     int result;
     i2c_class = class_create(THIS_MODULE, "drvoi2c");
     if (IS_ERR(i2c_class)) {
+        printk("IS ERROR");
         return PTR_ERR(i2c_class);
     }
 
