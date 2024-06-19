@@ -136,14 +136,10 @@ static void i2c_exit(void) {
 static int i2c_init(void) {
     int result;
     i2c_class = class_create(THIS_MODULE, "drvoi2c");
-    if (IS_ERR(i2c_class)) {
-        return PTR_ERR(i2c_class);
-    }
 
     result = platform_driver_register(&my_driver);
-    if (result) {
-        class_destroy(i2c_class);
-    }
+    class_destroy(i2c_class);
+    
     return result;
 }
 
