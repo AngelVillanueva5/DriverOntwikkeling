@@ -1,0 +1,1 @@
+cmd_/home/debian/bin/DriverOntwikkeling/weekFinal/drvoEindopdracht.ko := ld -r  -EL -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds  --build-id  -o /home/debian/bin/DriverOntwikkeling/weekFinal/drvoEindopdracht.ko /home/debian/bin/DriverOntwikkeling/weekFinal/drvoEindopdracht.o /home/debian/bin/DriverOntwikkeling/weekFinal/drvoEindopdracht.mod.o ;  true
