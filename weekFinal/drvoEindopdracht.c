@@ -58,22 +58,25 @@ struct my_platform_data {
 };
 
 static ssize_t my_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+     printk("STORE START");
     long val;
     if (kstrtol(buf, 0, &val) == 0) {
         i2c_smbus_write_byte(i2c_client, (u8)val);
     }
+     printk("STORE END");
     return count;
 }
 
 static ssize_t my_show(struct device *dev, struct device_attribute *attr, char *buf) {
-    
+     printk("SHOW START");
     char recv[3];
     int ret = i2c_master_recv(i2c_client, recv, sizeof(recv));
-
+    printk("SHOW END");
     return snprintf(buf, PAGE_SIZE, "%d\n", recv[0]);
 }
 
 static int i2c_probe(struct platform_device *pdev) {
+     printk("PROBE START");
     struct device_node *np = pdev->dev.of_node;
     struct i2c_adapter *adapter;
     struct i2c_board_info info;
@@ -107,19 +110,22 @@ static int i2c_probe(struct platform_device *pdev) {
     }
 
     i2c_put_adapter(adapter);
+     printk("PROBE END");
     return 0;
 }
 
 static int i2c_remove(struct platform_device *pdev) {
+     printk("REMOVE START");
     struct i2c_members *data = dev_get_drvdata(&pdev->dev);
     device_remove_file(i2c_device, &dev_attr_register_value);
     device_destroy(i2c_class, MKDEV(0, 0));
     kfree(data);
     i2c_unregister_device(i2c_client);
-
+     printk("REMOVE END");
     return 0;
 }
 static void i2c_exit(void) {
+    printk("EXIT START");
     platform_driver_unregister(&my_driver);
     if (i2c_device) {
         device_destroy(i2c_class, MKDEV(0, 0));
@@ -130,9 +136,11 @@ static void i2c_exit(void) {
         class_destroy(i2c_class);
         i2c_class = NULL;
     }
+     printk("EXIT END");
 }
 
 static int i2c_init(void) {
+    printk("INIT START");
     int result;
     i2c_class = class_create(THIS_MODULE, "drvoi2c");
     if (IS_ERR(i2c_class)) {
@@ -143,6 +151,7 @@ static int i2c_init(void) {
     if (result) {
         class_destroy(i2c_class);
     }
+    printk("INIT END");
     return result;
 }
 
