@@ -21,8 +21,8 @@ static struct device *i2c_device;
 static struct platform_device *adc_pdev;
 static int i2c_remove(struct platform_device *pdev);
 static int i2c_probe(struct platform_device *pdev);
-static ssize_t my_show(struct device *dev, struct device_attribute *attr, char *buf);
-static ssize_t my_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
+static ssize_t show(struct device *dev, struct device_attribute *attr, char *buf);
+static ssize_t store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
 
 static const struct of_device_id my_driver_ids[] = {
     { .compatible = "drvoi2c" },
@@ -49,30 +49,32 @@ static struct device_attribute dev_attr_register_value = {
         .name = "value",
         .mode = 0666,
     },
-    .show = my_show,
-    .store = my_store
+    .show = show,
+    .store = store
 };
 
 struct my_platform_data {
     struct i2c_board_info i2c_board_info;
 };
 
-static ssize_t my_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+static ssize_t store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
      printk("STORE START");
     long val;
     if (kstrtol(buf, 0, &val) == 0) {
+        // MASTER WRITE TO SLAVE
         i2c_smbus_write_byte(i2c_client, (u8)val);
     }
     printk("STORE END");
     return count;
 }
 
-static ssize_t my_show(struct device *dev, struct device_attribute *attr, char *buf) {
+static ssize_t show(struct device *dev, struct device_attribute *attr, char *buf) {
      printk("SHOW START");
-    char recv[3];
-    int ret = i2c_master_recv(i2c_client, recv, sizeof(recv));
+    char receiveVal[3];
+    // MASTER RECEIVE
+    int ret = i2c_master_recv(i2c_client, receiveVal, sizeof(receiveVal));
     printk("SHOW END");
-    return snprintf(buf, PAGE_SIZE, "%d\n", recv[0]);
+    return snprintf(buf, PAGE_SIZE, "%d\n", receiveVal[0]);
 }
 
 static int i2c_probe(struct platform_device *pdev) {
@@ -88,6 +90,7 @@ static int i2c_probe(struct platform_device *pdev) {
         return -ENODEV;
     }
 
+    // READ REG AND BUS FROM TREE
     ret = of_property_read_u32(np, "reg", &reg_value);
     ret = of_property_read_u32(np, "bus", &i2c_bus);
     adapter = i2c_get_adapter(i2c_bus);
