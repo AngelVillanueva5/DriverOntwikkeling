@@ -16,11 +16,11 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Johannes 4 GNU/Linux");
 MODULE_DESCRIPTION("A driver for my simple AMTEGA I2C ADC");
 static struct i2c_client *i2c_client;
-static struct class *i2c_custom_class;
-static struct device *i2c_custom_device;
+static struct class *i2c_class;
+static struct device *i2c_device;
 static struct platform_device *adc_pdev;
-static int i2c_custom_remove(struct platform_device *pdev);
-static int i2c_custom_probe(struct platform_device *pdev);
+static int i2c_remove(struct platform_device *pdev);
+static int i2c_probe(struct platform_device *pdev);
 static ssize_t my_show(struct device *dev, struct device_attribute *attr, char *buf);
 static ssize_t my_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
 
@@ -30,8 +30,8 @@ static const struct of_device_id my_driver_ids[] = {
 };
 
 static struct platform_driver my_driver = {
-    .probe = i2c_custom_probe,
-    .remove = i2c_custom_remove,
+    .probe = i2c_probe,
+    .remove = i2c_remove,
     .driver = {
         .name = "drvoi2c",
         .of_match_table = of_match_ptr(my_driver_ids),
@@ -71,7 +71,7 @@ static ssize_t my_show(struct device *dev, struct device_attribute *attr, char *
 struct my_platform_data {
     struct i2c_board_info i2c_board_info;
 };
-static int i2c_custom_probe(struct platform_device *pdev) {
+static int i2c_probe(struct platform_device *pdev) {
     struct device_node *np = pdev->dev.of_node;
     struct i2c_adapter *adapter;
     struct i2c_board_info info;
@@ -94,10 +94,10 @@ static int i2c_custom_probe(struct platform_device *pdev) {
 
     i2c_data = kzalloc(sizeof(struct i2c_members), GFP_KERNEL);
     dev_set_drvdata(&pdev->dev, i2c_data);
-    i2c_custom_device = device_create(i2c_custom_class, NULL, MKDEV(0, 0), NULL, "I2C_device%d", 0);
+    i2c_device = device_create(i2c_class, NULL, MKDEV(0, 0), NULL, "I2C_device%d", 0);
 
-    if (device_create_file(i2c_custom_device, &dev_attr_register_value)) {
-        device_destroy(i2c_custom_class, MKDEV(0, 0));
+    if (device_create_file(i2c_device, &dev_attr_register_value)) {
+        device_destroy(i2c_class, MKDEV(0, 0));
         kfree(i2c_data);
         i2c_unregister_device(i2c_client);
         i2c_put_adapter(adapter);
@@ -108,41 +108,41 @@ static int i2c_custom_probe(struct platform_device *pdev) {
     return 0;
 }
 
-static int i2c_custom_remove(struct platform_device *pdev) {
+static int i2c_remove(struct platform_device *pdev) {
     struct i2c_members *data = dev_get_drvdata(&pdev->dev);
-    device_remove_file(i2c_custom_device, &dev_attr_register_value);
-    device_destroy(i2c_custom_class, MKDEV(0, 0));
+    device_remove_file(i2c_device, &dev_attr_register_value);
+    device_destroy(i2c_class, MKDEV(0, 0));
     kfree(data);
     i2c_unregister_device(i2c_client);
 
     return 0;
 }
-static void i2c_custom_exit(void) {
+static void i2c_exit(void) {
     platform_driver_unregister(&my_driver);
-    if (i2c_custom_device) {
-        device_destroy(i2c_custom_class, MKDEV(0, 0));
-        i2c_custom_device = NULL;
+    if (i2c_device) {
+        device_destroy(i2c_class, MKDEV(0, 0));
+        i2c_device = NULL;
     }
-    device_remove_file(i2c_custom_device, &dev_attr_register_value);
-    if (i2c_custom_class) {
-        class_destroy(i2c_custom_class);
-        i2c_custom_class = NULL;
+    device_remove_file(i2c_device, &dev_attr_register_value);
+    if (i2c_class) {
+        class_destroy(i2c_class);
+        i2c_class = NULL;
     }
 }
 
-static int i2c_custom_init(void) {
+static int i2c_init(void) {
     int result;
-    i2c_custom_class = class_create(THIS_MODULE, "drvoi2c");
-    if (IS_ERR(i2c_custom_class)) {
-        return PTR_ERR(i2c_custom_class);
+    i2c_class = class_create(THIS_MODULE, "drvoi2c");
+    if (IS_ERR(i2c_class)) {
+        return PTR_ERR(i2c_class);
     }
 
     result = platform_driver_register(&my_driver);
     if (result) {
-        class_destroy(i2c_custom_class);
+        class_destroy(i2c_class);
     }
     return result;
 }
 
-module_init(i2c_custom_init);
-module_exit(i2c_custom_exit);
+module_init(i2c_init);
+module_exit(i2c_exit);
