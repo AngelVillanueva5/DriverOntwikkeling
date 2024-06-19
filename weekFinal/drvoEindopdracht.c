@@ -134,6 +134,7 @@ static void i2c_exit(void) {
 }
 
 static int i2c_init(void) {
+    printk("init start %d\n");
     int result;
     i2c_class = class_create(THIS_MODULE, "drvoi2c");
 
