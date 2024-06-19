@@ -89,7 +89,7 @@ static int i2c_probe(struct platform_device *pdev) {
     }
 
     ret = of_property_read_u32(np, "reg", &reg_value);
-    ret = of_property_read_u32(np, "i2c-bus", &i2c_bus);
+    ret = of_property_read_u32(np, "bus", &i2c_bus);
     adapter = i2c_get_adapter(i2c_bus);
     memset(&info, 0, sizeof(struct i2c_board_info));
     strlcpy(info.type, "custom_sensor", I2C_NAME_SIZE);
