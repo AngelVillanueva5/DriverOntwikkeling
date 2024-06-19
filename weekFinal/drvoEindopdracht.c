@@ -63,7 +63,7 @@ static ssize_t my_store(struct device *dev, struct device_attribute *attr, const
     if (kstrtol(buf, 0, &val) == 0) {
         i2c_smbus_write_byte(i2c_client, (u8)val);
     }
-     printk("STORE END");
+    printk("STORE END");
     return count;
 }
 
@@ -89,16 +89,15 @@ static int i2c_probe(struct platform_device *pdev) {
     }
 
     ret = of_property_read_u32(np, "reg", &reg_value);
-    ret = of_property_read_u32(np, "bus", &i2c_bus);
+    ret = of_property_read_u32(np, "i2c-bus", &i2c_bus);
     adapter = i2c_get_adapter(i2c_bus);
     memset(&info, 0, sizeof(struct i2c_board_info));
     strlcpy(info.type, "custom_sensor", I2C_NAME_SIZE);
     info.addr = reg_value;
-	printk("start new device");
+
     i2c_client = i2c_new_device(adapter, &info);
-	printk("start alloc");
+
     i2c_data = kzalloc(sizeof(struct i2c_members), GFP_KERNEL);
-    printk("end alloc");
     dev_set_drvdata(&pdev->dev, i2c_data);
     printk("start device crate");
     i2c_device = device_create(i2c_class, NULL, MKDEV(0, 0), NULL, "drvoi2c%d", 0);
@@ -112,7 +111,7 @@ static int i2c_probe(struct platform_device *pdev) {
     }
 
     i2c_put_adapter(adapter);
-     printk("PROBE END");
+    printk("PROBE END");
     return 0;
 }
 
@@ -126,6 +125,7 @@ static int i2c_remove(struct platform_device *pdev) {
      printk("REMOVE END");
     return 0;
 }
+
 static void i2c_exit(void) {
     printk("EXIT START");
     platform_driver_unregister(&my_driver);
