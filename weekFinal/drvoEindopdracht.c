@@ -119,28 +119,30 @@ static int i2c_remove(struct platform_device *pdev) {
 
     return 0;
 }
-
 static void i2c_exit(void) {
     platform_driver_unregister(&my_driver);
-
-    device_destroy(i2c_class, MKDEV(0, 0));
-    i2c_device = NULL;
-    
+    if (i2c_device) {
+        device_destroy(i2c_class, MKDEV(0, 0));
+        i2c_device = NULL;
+    }
     device_remove_file(i2c_device, &dev_attr_register_value);
-
-    class_destroy(i2c_class);
-    i2c_class = NULL;
-    
+    if (i2c_class) {
+        class_destroy(i2c_class);
+        i2c_class = NULL;
+    }
 }
 
 static int i2c_init(void) {
-    printk("init start %d\n");
     int result;
     i2c_class = class_create(THIS_MODULE, "drvoi2c");
+    if (IS_ERR(i2c_class)) {
+        return PTR_ERR(i2c_class);
+    }
 
     result = platform_driver_register(&my_driver);
-    class_destroy(i2c_class);
-    
+    if (result) {
+        class_destroy(i2c_class);
+    }
     return result;
 }
 
