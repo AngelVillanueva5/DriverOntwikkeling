@@ -3774,6 +3774,11 @@
 			pinctrl-0;
 			clock-frequency = < 0x186a0 >;
 			phandle = < 0x27e >;
+			drvoi2c@25 {
+				compatible = "drvoi2c";
+				reg = <0x25>;
+			};
+
 		};
 
 		i2c@4819c000 {
@@ -6113,12 +6118,7 @@
 		};
 	};
 
-	drvoi2c {
-		compatible = "drvoi2c";
-		reg = <0x25>;
-		bus = <0x02>;
-	};
-
+	
 	fixedregulator0 {
 		compatible = "regulator-fixed";
 		regulator-name = "vmmcsd_fixed";
