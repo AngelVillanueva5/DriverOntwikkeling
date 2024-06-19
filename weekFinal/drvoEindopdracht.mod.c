@@ -46,7 +46,6 @@ __attribute__((section("__versions"))) = {
 	{ 0xdb7305a1, "__stack_chk_fail" },
 	{ 0x1ee793bd, "i2c_smbus_write_byte" },
 	{ 0x11a13e31, "_kstrtol" },
-	{ 0x7c32d0f0, "printk" },
 	{ 0x8f678b07, "__stack_chk_guard" },
 	{ 0x2e5810c6, "__aeabi_unwind_cpp_pr1" },
 	{ 0x728d218, "i2c_unregister_device" },
