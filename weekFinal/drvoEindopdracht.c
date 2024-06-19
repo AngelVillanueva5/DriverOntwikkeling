@@ -122,15 +122,15 @@ static int i2c_remove(struct platform_device *pdev) {
 
 static void i2c_exit(void) {
     platform_driver_unregister(&my_driver);
-    if (i2c_device) {
-        device_destroy(i2c_class, MKDEV(0, 0));
-        i2c_device = NULL;
-    }
+
+    device_destroy(i2c_class, MKDEV(0, 0));
+    i2c_device = NULL;
+    
     device_remove_file(i2c_device, &dev_attr_register_value);
-    if (i2c_class) {
-        class_destroy(i2c_class);
-        i2c_class = NULL;
-    }
+
+    class_destroy(i2c_class);
+    i2c_class = NULL;
+    
 }
 
 static int i2c_init(void) {
