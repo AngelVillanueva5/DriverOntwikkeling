@@ -53,6 +53,10 @@ static struct device_attribute dev_attr_register_value = {
     .store = my_store
 };
 
+struct my_platform_data {
+    struct i2c_board_info i2c_board_info;
+};
+
 static ssize_t my_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
     long val;
     if (kstrtol(buf, 0, &val) == 0) {
@@ -68,9 +72,7 @@ static ssize_t my_show(struct device *dev, struct device_attribute *attr, char *
 
     return snprintf(buf, PAGE_SIZE, "%d\n", recv[0]);
 }
-struct my_platform_data {
-    struct i2c_board_info i2c_board_info;
-};
+
 static int i2c_probe(struct platform_device *pdev) {
     struct device_node *np = pdev->dev.of_node;
     struct i2c_adapter *adapter;
@@ -117,6 +119,7 @@ static int i2c_remove(struct platform_device *pdev) {
 
     return 0;
 }
+
 static void i2c_exit(void) {
     platform_driver_unregister(&my_driver);
     if (i2c_device) {
@@ -133,14 +136,10 @@ static void i2c_exit(void) {
 static int i2c_init(void) {
     int result;
     i2c_class = class_create(THIS_MODULE, "drvoi2c");
-    if (IS_ERR(i2c_class)) {
-        return PTR_ERR(i2c_class);
-    }
 
     result = platform_driver_register(&my_driver);
-    if (result) {
-        class_destroy(i2c_class);
-    }
+    class_destroy(i2c_class);
+    
     return result;
 }
 
