@@ -6113,6 +6113,12 @@
 		};
 	};
 
+	drvoi2c {
+		compatible = "drvoi2c";
+		reg = <0x25>;
+		bus = <0x02>;
+	};
+
 	fixedregulator0 {
 		compatible = "regulator-fixed";
 		regulator-name = "vmmcsd_fixed";
@@ -6829,10 +6835,6 @@
 		vmmcsd_fixed = "/fixedregulator0";
 	};
 	
-	node {
-		compatible = "drvoi2c";
-		reg = <0x25>;
-		bus = <0x02>;
-	};
+	
 
 };
